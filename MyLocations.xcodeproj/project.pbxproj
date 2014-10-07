@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50146B0219E4015B00BFB1E1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50146B0119E4015B00BFB1E1 /* CoreLocation.framework */; };
 		50922DBD19E2B50C00FFF874 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 50922DBC19E2B50C00FFF874 /* main.m */; };
 		50922DC019E2B50C00FFF874 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 50922DBF19E2B50C00FFF874 /* AppDelegate.m */; };
 		50922DC319E2B50C00FFF874 /* CurrentLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50922DC219E2B50C00FFF874 /* CurrentLocationViewController.m */; };
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		50146B0119E4015B00BFB1E1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		50922DB719E2B50C00FFF874 /* MyLocations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLocations.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50922DBB19E2B50C00FFF874 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50922DBC19E2B50C00FFF874 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -50,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50146B0219E4015B00BFB1E1 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +69,7 @@
 		50922DAE19E2B50C00FFF874 = {
 			isa = PBXGroup;
 			children = (
+				50146B0119E4015B00BFB1E1 /* CoreLocation.framework */,
 				50922DB919E2B50C00FFF874 /* MyLocations */,
 				50922DD619E2B50C00FFF874 /* MyLocationsTests */,
 				50922DB819E2B50C00FFF874 /* Products */,
@@ -350,6 +354,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MyLocations/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -360,6 +365,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MyLocations/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
