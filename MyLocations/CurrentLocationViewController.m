@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Ivan Magda. All rights reserved.
 //
 
-#import "FirstViewController.h"
+#import "CurrentLocationViewController.h"
 
-@interface FirstViewController ()
+@interface CurrentLocationViewController ()
 
 @end
 
-@implementation FirstViewController
+@implementation CurrentLocationViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
