@@ -22,15 +22,27 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     [self updateLabels];
+    [self configureGetButton];
 }
 
 #pragma mark - IBActions -
 
+    //If the button is pressed while the app is already doing the location fetching,
+    //then stop the location manager.
+    //also clear out the old location and error objects before start looking for a new location.
 - (IBAction)getLocation:(id)sender {
-    [self startLocationManager];
+    if (_updatingLocation) {
+        [self stopLocationManager];
+    } else {
+        _location = nil;
+        _lastLocationError = nil;
+
+        [self startLocationManager];
+    }
+
     [self updateLabels];
+    [self configureGetButton];
 }
 
 #pragma mark - CLLocationManagerDelegate -
@@ -46,6 +58,7 @@
     _lastLocationError = error;
 
     [self updateLabels];
+    [self configureGetButton];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
@@ -53,9 +66,29 @@
 
     NSLog(@"didUpdateLocations %@", newLocation);
 
-    _lastLocationError = nil;
-    _location = newLocation;
-    [self updateLabels];
+        //ignore these locations if they are too old.
+    if ([newLocation.timestamp timeIntervalSinceNow] < -5.0) {
+        return;
+    }
+
+        //if measurements are invalid ignore them.
+    if (newLocation.horizontalAccuracy < 0) {
+        return;
+    }
+
+        //if the new reading coordinates is more useful than the previous one
+        //larger accuracy value actually means less accurate
+    if (_location == nil || _location.horizontalAccuracy > newLocation.horizontalAccuracy) {
+        _lastLocationError = nil;
+        _location = newLocation;
+        [self updateLabels];
+
+        if (newLocation.horizontalAccuracy <= _locationManager.desiredAccuracy) {
+            NSLog(@"We're done!");
+            [self stopLocationManager];
+            [self configureGetButton];
+        }
+    }
 }
 
 - (void)updateLabels {
@@ -65,9 +98,9 @@
         self.tagButton.hidden = NO;
         self.messageLabel.text = @"";
     } else {
-        self.latitudeLabel.text = @"";
+        self.latitudeLabel.text  = @"";
         self.longitudeLabel.text = @"";
-        self.addressLabel.text = @"";
+        self.addressLabel.text   = @"";
         self.tagButton.hidden = YES;
 
         NSString *statusMessage;
@@ -81,11 +114,19 @@
         } else if (![CLLocationManager locationServicesEnabled]) {
             statusMessage = @"Location Services Disabled";
         } else if (_updatingLocation) {
-                statusMessage = @"Searching...";
+            statusMessage = @"Searching...";
         } else {
-                statusMessage = @"Press the Button to Start";
+            statusMessage = @"Press the Button to Start";
         }
         self.messageLabel.text = statusMessage;
+    }
+}
+
+- (void)configureGetButton {
+    if (_updatingLocation) {
+        [self.getButton setTitle:@"Stop" forState:UIControlStateNormal];
+    } else {
+        [self.getButton setTitle:@"Get My Location" forState:UIControlStateNormal];
     }
 }
 
