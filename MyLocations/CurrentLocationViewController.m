@@ -9,6 +9,12 @@
     CLLocation        *_location;
     BOOL               _updatingLocation;
     NSError           *_lastLocationError;
+
+        //reverse coding
+    CLGeocoder *_geocoder; //is the object that will perform the geocoding
+    CLPlacemark *_placemark; //is the object that contains the address results
+    BOOL _performingReverseGeocoding; //set to YES when a geocoding operation is taking place
+    NSError *_lastGeocodingError;
 }
 
 #pragma mark - View Controller LifeCycle -
@@ -16,6 +22,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         _locationManager = [[CLLocationManager alloc]init];
+        _geocoder = [[CLGeocoder alloc]init];
     }
     return self;
 }
@@ -37,6 +44,8 @@
     } else {
         _location = nil;
         _lastLocationError = nil;
+        _placemark = nil;
+        _lastGeocodingError = nil;
 
         [self startLocationManager];
     }
@@ -88,7 +97,41 @@
             [self stopLocationManager];
             [self configureGetButton];
         }
+
+        if (!_performingReverseGeocoding) {
+            NSLog(@"*** Going to geocode");
+
+            _performingReverseGeocoding = YES;
+
+                //reverse geocode the location, and that the code in the block
+                //following completionHandler should be executed as soon as the
+                //geocoding is completed
+            [_geocoder reverseGeocodeLocation:_location
+                            completionHandler:
+             ^(NSArray *placemarks, NSError *error) {
+                 NSLog(@"*** Found placemarks: %@, error: %@",placemarks, error);
+
+                 _lastGeocodingError = error;
+                 if (error == nil && [placemarks count] > 0) {
+                     _placemark = [placemarks lastObject];
+                 } else {
+                     _placemark = nil;
+                 }
+
+                 _performingReverseGeocoding = NO;
+                 [self updateLabels];
+             }];
+        }
     }
+}
+
+- (NSString *)stringFromPlacemark:(CLPlacemark *)thePlacemark {
+    return [NSString stringWithFormat:@"%@ %@\n%@ %@ %@",
+            thePlacemark.subThoroughfare,
+            thePlacemark.thoroughfare,
+            thePlacemark.locality,
+            thePlacemark.administrativeArea,
+            thePlacemark.postalCode];
 }
 
 - (void)updateLabels {
@@ -97,6 +140,16 @@
         self.longitudeLabel.text = [NSString stringWithFormat:@"%.8f", _location.coordinate.longitude];
         self.tagButton.hidden = NO;
         self.messageLabel.text = @"";
+
+        if (_placemark) {
+            self.addressLabel.text = [self stringFromPlacemark:_placemark];
+        } else if (_performingReverseGeocoding) {
+            self.addressLabel.text = @"Searching for Address...";
+        } else if (_lastGeocodingError) {
+            self.addressLabel.text = @"Error Finding Address";
+        } else {
+            self.addressLabel.text = @"No Address Found";
+        }
     } else {
         self.latitudeLabel.text  = @"";
         self.longitudeLabel.text = @"";
