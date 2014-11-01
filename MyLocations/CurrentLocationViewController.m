@@ -55,6 +55,17 @@
     [self configureGetButton];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"TagLocation"]) {
+        UINavigationController *navigationController = segue.destinationViewController;
+        
+        LocationDetailsViewController *locationDetailsViewController = (LocationDetailsViewController *)navigationController.topViewController;
+
+        locationDetailsViewController.coordinate = _location.coordinate;
+        locationDetailsViewController.placemark  = _placemark;
+    }
+}
+
 #pragma mark - CLLocationManagerDelegate -
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {

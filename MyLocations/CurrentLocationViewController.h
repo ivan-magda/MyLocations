@@ -1,5 +1,9 @@
+    // Frameworks
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+
+    // My classes
+#import "LocationDetailsViewController.h"
 
 @interface CurrentLocationViewController : UIViewController
                                            <CLLocationManagerDelegate>
