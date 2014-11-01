@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		500B3B8E1A0493EA0042F1C1 /* LocationDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 500B3B8D1A0493EA0042F1C1 /* LocationDetailsViewController.m */; };
 		50146B0219E4015B00BFB1E1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50146B0119E4015B00BFB1E1 /* CoreLocation.framework */; };
 		50922DBD19E2B50C00FFF874 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 50922DBC19E2B50C00FFF874 /* main.m */; };
 		50922DC019E2B50C00FFF874 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 50922DBF19E2B50C00FFF874 /* AppDelegate.m */; };
@@ -29,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		500B3B8C1A0493EA0042F1C1 /* LocationDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationDetailsViewController.h; sourceTree = "<group>"; };
+		500B3B8D1A0493EA0042F1C1 /* LocationDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationDetailsViewController.m; sourceTree = "<group>"; };
 		50146B0119E4015B00BFB1E1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		50922DB719E2B50C00FFF874 /* MyLocations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLocations.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50922DBB19E2B50C00FFF874 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -91,6 +94,8 @@
 				50922DBF19E2B50C00FFF874 /* AppDelegate.m */,
 				50922DC119E2B50C00FFF874 /* CurrentLocationViewController.h */,
 				50922DC219E2B50C00FFF874 /* CurrentLocationViewController.m */,
+				500B3B8C1A0493EA0042F1C1 /* LocationDetailsViewController.h */,
+				500B3B8D1A0493EA0042F1C1 /* LocationDetailsViewController.m */,
 				50922DC419E2B50C00FFF874 /* SecondViewController.h */,
 				50922DC519E2B50C00FFF874 /* SecondViewController.m */,
 				50922DC719E2B50C00FFF874 /* Main.storyboard */,
@@ -237,6 +242,7 @@
 				50922DC019E2B50C00FFF874 /* AppDelegate.m in Sources */,
 				50922DC319E2B50C00FFF874 /* CurrentLocationViewController.m in Sources */,
 				50922DBD19E2B50C00FFF874 /* main.m in Sources */,
+				500B3B8E1A0493EA0042F1C1 /* LocationDetailsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

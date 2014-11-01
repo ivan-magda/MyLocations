@@ -11,11 +11,10 @@
     BOOL               _updatingLocation;
     NSError           *_lastLocationError;
 
-        //reverse coding
+        //reverse geocoding
     CLGeocoder *_geocoder; //is the object that will perform the geocoding
     CLPlacemark *_placemark; //is the object that contains the address results
-    BOOL _performingReverseGeocoding; //set to YES when a geocoding operation is
-                                      //taking place
+    BOOL _performingReverseGeocoding; //set to YES when a geocoding operation is taking place
     NSError *_lastGeocodingError;
 }
 
@@ -31,6 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     [self updateLabels];
     [self configureGetButton];
 }
@@ -39,7 +39,7 @@
 
     //If the button is pressed while the app is already doing the location fetching,
     //then stop the location manager.
-    //also clear out the old location and error objects before start looking for a new location.
+    //Also clear out the old location, error, placemark, geoErr objects before start looking for a new location.
 - (IBAction)getLocation:(id)sender {
     if (_updatingLocation) {
         [self stopLocationManager];
@@ -80,13 +80,11 @@
     if ([newLocation.timestamp timeIntervalSinceNow] < -5.0) {
         return;
     }
-
         //if measurements are invalid ignore them.
     if (newLocation.horizontalAccuracy < 0) {
         return;
     }
-        //calculates the distance between the new reading and the previous reading,
-        //if there was one
+        //calculates the distance between the new reading and the previous reading
     CLLocationDistance distance = MAXFLOAT;
     if (_location) {
         distance = [newLocation distanceFromLocation:_location];
@@ -94,7 +92,9 @@
 
         //if the new reading coordinates is more useful than the previous one
         //larger accuracy value actually means less accurate
-    if (_location == nil || _location.horizontalAccuracy > newLocation.horizontalAccuracy) {
+    if (_location == nil ||
+        _location.horizontalAccuracy > newLocation.horizontalAccuracy) {
+
         _lastLocationError = nil;
         _location = newLocation;
         [self updateLabels];
@@ -142,6 +142,7 @@
         NSTimeInterval timeInterval = [newLocation.timestamp timeIntervalSinceDate:_location.timestamp];
         if (timeInterval > 10) {
             NSLog(@"*** Force done!");
+
             [self stopLocationManager];
             [self updateLabels];
             [self configureGetButton];
@@ -210,14 +211,16 @@
     }
 }
 
-#pragma mark - Configure locationManager -
+#pragma mark - ConfigureLocationManager -
 
 - (void)startLocationManager {
     if ([CLLocationManager locationServicesEnabled]) {
         _locationManager.delegate = self;
         _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+
         [_locationManager requestWhenInUseAuthorization];
         [_locationManager startUpdatingLocation];
+
         _updatingLocation = YES;
 
         [self performSelector:@selector(didTimeOut:) withObject:nil afterDelay:60];
@@ -229,6 +232,7 @@
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(didTimeOut:) object:nil];
 
         [_locationManager stopUpdatingLocation];
+        
         _locationManager.delegate = nil;
         _updatingLocation = NO;
     }
