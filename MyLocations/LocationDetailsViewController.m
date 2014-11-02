@@ -51,6 +51,11 @@
         self.addressLabel.text = @"No Address Found";
     }
     self.dateLabel.text = [self formatDate:[NSDate date]];
+
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideKeyboard:)];
+
+    gestureRecognizer.cancelsTouchesInView = NO;
+    [self.tableView addGestureRecognizer:gestureRecognizer];
 }
 
 #pragma mark - UITableViewDelegate
@@ -71,6 +76,21 @@
     }
 }
 
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0 || indexPath.section == 1) {
+        return indexPath;
+    } else {
+        return nil;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        [self.descriptionTextView becomeFirstResponder];
+    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
 #pragma mark - Helper Methods -
 
 - (NSString *)stringFromPlacemark:(CLPlacemark *)placemark {
@@ -89,6 +109,18 @@
     return [formatter stringFromDate:theDate];
 }
 
+- (void)hideKeyboard:(UIGestureRecognizer *)gestureRecognizer {
+    CGPoint point = [gestureRecognizer locationInView:self.tableView];
+
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:point];
+
+    if (indexPath && indexPath.section == 0 && indexPath.row == 0) {
+        return;
+    }
+
+    [self.descriptionTextView resignFirstResponder];
+}
+
 #pragma mark - IBActions -
 
 - (IBAction)done:(id)sender {
@@ -105,6 +137,8 @@
 - (void)closeScreen {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+#pragma mark Unwind Segue
 
 - (IBAction)categoryPickerDidPickCategory:(UIStoryboardSegue *)segue {
     CategoryPickerViewController *categoryPickerViewController = segue.sourceViewController;

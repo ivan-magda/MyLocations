@@ -63,6 +63,8 @@
 
         locationDetailsViewController.coordinate = _location.coordinate;
         locationDetailsViewController.placemark  = _placemark;
+
+        [self stopLocationManager];
     }
 }
 

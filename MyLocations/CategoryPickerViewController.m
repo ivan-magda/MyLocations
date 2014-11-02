@@ -62,7 +62,7 @@
     }
 }
 
-#pragma mark - Transition -
+#pragma mark - Unwind Segue -
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"PickedCategory"]) {
