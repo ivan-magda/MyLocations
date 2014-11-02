@@ -1,6 +1,7 @@
     // My Classes
 #import "LocationDetailsViewController.h"
 #import "CategoryPickerViewController.h"
+#import "HudView.h"
 
     // Frameworks
 #import <CoreLocation/CoreLocation.h>
@@ -117,17 +118,16 @@
     if (indexPath && indexPath.section == 0 && indexPath.row == 0) {
         return;
     }
-
     [self.descriptionTextView resignFirstResponder];
 }
 
 #pragma mark - IBActions -
 
 - (IBAction)done:(id)sender {
+    HudView *hudView = [HudView hudInView:self.navigationController.view animated:YES];
+    hudView.text = @"Tagged";
 
-    NSLog(@"Description: %@", _descriptionText);
-
-    [self closeScreen];
+    [self performSelector:@selector(closeScreen) withObject:nil afterDelay:0.6];
 }
 
 - (IBAction)cancel:(id)sender {
