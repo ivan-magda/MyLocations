@@ -4,7 +4,7 @@
 
 #pragma mark - Class Extention
 
-@interface LocationDetailsViewController ()
+@interface LocationDetailsViewController () <UITextViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UITextView *descriptionTextView;
 
@@ -18,14 +18,23 @@
 
 #pragma mark - Class Implementation
 
-@implementation LocationDetailsViewController
+@implementation LocationDetailsViewController {
+    NSString *_descriptionText;
+}
 
 #pragma mark View - Controller Life Cycle -
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if ((self = [super initWithCoder:aDecoder])) {
+        _descriptionText = @"";
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.descriptionTextView.text = @"";
+    self.descriptionTextView.text = _descriptionText;
     self.categoryLabel.text = @"";
     self.latitudeLabel.text = [NSString stringWithFormat:@"%.8f", self.coordinate.latitude];
     self.longitudeLabel.text = [NSString stringWithFormat: @"%.8f", self.coordinate.longitude];
@@ -77,6 +86,9 @@
 #pragma mark - IBActions -
 
 - (IBAction)done:(id)sender {
+
+    NSLog(@"Description: %@", _descriptionText);
+
     [self closeScreen];
 }
 
@@ -86,6 +98,17 @@
 
 - (void)closeScreen {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - UITextView Delegate -
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    _descriptionText = [textView.text stringByReplacingCharactersInRange:range withString:text];
+    return YES;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    _descriptionText = textView.text;
 }
 
 @end
