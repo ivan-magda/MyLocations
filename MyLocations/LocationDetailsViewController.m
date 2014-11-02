@@ -1,4 +1,8 @@
+    // My Classes
 #import "LocationDetailsViewController.h"
+#import "CategoryPickerViewController.h"
+
+    // Frameworks
 #import <CoreLocation/CoreLocation.h>
 
 
@@ -20,6 +24,7 @@
 
 @implementation LocationDetailsViewController {
     NSString *_descriptionText;
+    NSString *_categoryName;
 }
 
 #pragma mark View - Controller Life Cycle -
@@ -27,6 +32,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
         _descriptionText = @"";
+        _categoryName = @"No Category";
     }
     return self;
 }
@@ -35,7 +41,7 @@
     [super viewDidLoad];
 
     self.descriptionTextView.text = _descriptionText;
-    self.categoryLabel.text = @"";
+    self.categoryLabel.text = _categoryName;
     self.latitudeLabel.text = [NSString stringWithFormat:@"%.8f", self.coordinate.latitude];
     self.longitudeLabel.text = [NSString stringWithFormat: @"%.8f", self.coordinate.longitude];
 
@@ -98,6 +104,21 @@
 
 - (void)closeScreen {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)categoryPickerDidPickCategory:(UIStoryboardSegue *)segue {
+    CategoryPickerViewController *categoryPickerViewController = segue.sourceViewController;
+    _categoryName = categoryPickerViewController.selectedCategoryName;
+    self.categoryLabel.text = _categoryName;
+}
+
+#pragma mark - Transition -
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"PickCategory"]) {
+        CategoryPickerViewController *categoryPickerViewController = segue.destinationViewController;
+        categoryPickerViewController.selectedCategoryName = _categoryName;
+    }
 }
 
 #pragma mark - UITextView Delegate -
