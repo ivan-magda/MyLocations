@@ -55,6 +55,8 @@
     [self configureGetButton];
 }
 
+#pragma mark - Transition -
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"TagLocation"]) {
         UINavigationController *navigationController = segue.destinationViewController;

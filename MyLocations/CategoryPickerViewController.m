@@ -49,8 +49,6 @@
 #pragma mark - UITableViewDelegate -
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
     if (indexPath.row != _selectedIndexPath.row) {
         UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
         newCell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -60,6 +58,7 @@
 
         _selectedIndexPath = indexPath;
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - Unwind Segue -

@@ -28,7 +28,7 @@
     NSString *_categoryName;
 }
 
-#pragma mark View - Controller Life Cycle -
+#pragma mark - ViewController Life Cycle -
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
