@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-
-@import CoreLocation;
+#import <CoreLocation/CoreLocation.h>
 
 
 @interface Location : NSManagedObject
