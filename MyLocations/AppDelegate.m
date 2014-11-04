@@ -1,5 +1,11 @@
 #import "AppDelegate.h"
+#import "CurrentLocationViewController.h"
+
+    //Frameworks
 #import <CoreData/CoreData.h>
+
+
+#pragma mark - Class Extention
 
 @interface AppDelegate ()
 
@@ -10,11 +16,19 @@
 
 @end
 
+
+#pragma mark - Class Implementation
+
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+
+    CurrentLocationViewController *currentLocationViewController = (CurrentLocationViewController *)tabBarController.viewControllers[0];
+
+    currentLocationViewController.managedObjectContext = self.managedObjectContext;
+
     return YES;
 }
 
@@ -46,6 +60,7 @@
     if (!_managedObjectModel) {
         NSString *modelPath = [[NSBundle mainBundle]pathForResource:@"DataModel" ofType:@"momd"];
         NSURL *modelURL = [NSURL fileURLWithPath:modelPath];
+
         _managedObjectModel = [[NSManagedObjectModel alloc]initWithContentsOfURL:modelURL];
     }
     return _managedObjectModel;
@@ -54,6 +69,7 @@
 - (NSString *)documentsDirectory {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths lastObject];
+    NSParameterAssert(documentsDirectory);
 
     return documentsDirectory;
 }
@@ -72,7 +88,6 @@
         NSError *error;
         if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
             NSLog(@"Error adding persistent store %@, %@", error, [error userInfo]);
-
             abort();
         }
     }
