@@ -2,6 +2,7 @@
 #import "LocationDetailsViewController.h"
 #import "CategoryPickerViewController.h"
 #import "HudView.h"
+#import "Location.h"
 
     // Frameworks
 #import <CoreLocation/CoreLocation.h>
@@ -26,6 +27,7 @@
 @implementation LocationDetailsViewController {
     NSString *_descriptionText;
     NSString *_categoryName;
+    NSDate *_date;
 }
 
 #pragma mark - ViewController Life Cycle -
@@ -34,6 +36,7 @@
     if ((self = [super initWithCoder:aDecoder])) {
         _descriptionText = @"";
         _categoryName = @"No Category";
+        _date = [NSDate date];
     }
     return self;
 }
@@ -51,7 +54,7 @@
     } else {
         self.addressLabel.text = @"No Address Found";
     }
-    self.dateLabel.text = [self formatDate:[NSDate date]];
+    self.dateLabel.text = [self formatDate:_date];
 
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideKeyboard:)];
 
@@ -121,11 +124,35 @@
     [self.descriptionTextView resignFirstResponder];
 }
 
+#pragma mark - CoreData -
+
+- (void)saveLocation {
+        //Сreate a new Location object
+    Location *location = [NSEntityDescription insertNewObjectForEntityForName:@"Location" inManagedObjectContext:self.managedObjectContext];
+
+        //Set his properties
+    location.locationDescription = _descriptionText;
+    location.latitude  = @(self.coordinate.latitude);
+    location.longitude = @(self.coordinate.longitude);
+    location.category  = _categoryName;
+    location.placemark = self.placemark;
+    location.date = _date;
+    
+        //Saves these changes into the data store.
+    NSError *error;
+    if (![self.managedObjectContext save:&error]) {
+        NSLog(@"Error: %@", error);
+        abort();
+    }
+}
+
 #pragma mark - IBActions -
 
 - (IBAction)done:(id)sender {
     HudView *hudView = [HudView hudInView:self.navigationController.view animated:YES];
     hudView.text = @"Tagged";
+
+    [self saveLocation];
 
     [self performSelector:@selector(closeScreen) withObject:nil afterDelay:0.6];
 }
