@@ -16,7 +16,7 @@
 		50922DBD19E2B50C00FFF874 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 50922DBC19E2B50C00FFF874 /* main.m */; };
 		50922DC019E2B50C00FFF874 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 50922DBF19E2B50C00FFF874 /* AppDelegate.m */; };
 		50922DC319E2B50C00FFF874 /* CurrentLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50922DC219E2B50C00FFF874 /* CurrentLocationViewController.m */; };
-		50922DC619E2B50C00FFF874 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50922DC519E2B50C00FFF874 /* SecondViewController.m */; };
+		50922DC619E2B50C00FFF874 /* LocationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50922DC519E2B50C00FFF874 /* LocationsViewController.m */; };
 		50922DC919E2B50C00FFF874 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50922DC719E2B50C00FFF874 /* Main.storyboard */; };
 		50922DCB19E2B50C00FFF874 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50922DCA19E2B50C00FFF874 /* Images.xcassets */; };
 		50922DCE19E2B50C00FFF874 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50922DCC19E2B50C00FFF874 /* LaunchScreen.xib */; };
@@ -51,8 +51,8 @@
 		50922DBF19E2B50C00FFF874 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		50922DC119E2B50C00FFF874 /* CurrentLocationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CurrentLocationViewController.h; sourceTree = "<group>"; };
 		50922DC219E2B50C00FFF874 /* CurrentLocationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CurrentLocationViewController.m; sourceTree = "<group>"; };
-		50922DC419E2B50C00FFF874 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		50922DC519E2B50C00FFF874 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		50922DC419E2B50C00FFF874 /* LocationsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationsViewController.h; sourceTree = "<group>"; };
+		50922DC519E2B50C00FFF874 /* LocationsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationsViewController.m; sourceTree = "<group>"; };
 		50922DC819E2B50C00FFF874 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		50922DCA19E2B50C00FFF874 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		50922DCD19E2B50C00FFF874 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -125,8 +125,8 @@
 				50C1E28B1A0651B600ED3159 /* HudView.m */,
 				507124241A05BD9C00E1376B /* CategoryPickerViewController.h */,
 				507124251A05BD9C00E1376B /* CategoryPickerViewController.m */,
-				50922DC419E2B50C00FFF874 /* SecondViewController.h */,
-				50922DC519E2B50C00FFF874 /* SecondViewController.m */,
+				50922DC419E2B50C00FFF874 /* LocationsViewController.h */,
+				50922DC519E2B50C00FFF874 /* LocationsViewController.m */,
 				50922DC719E2B50C00FFF874 /* Main.storyboard */,
 				50922DCA19E2B50C00FFF874 /* Images.xcassets */,
 				50922DCC19E2B50C00FFF874 /* LaunchScreen.xib */,
@@ -268,7 +268,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50922DC619E2B50C00FFF874 /* SecondViewController.m in Sources */,
+				50922DC619E2B50C00FFF874 /* LocationsViewController.m in Sources */,
 				508E7EA91A08B6840097A9BE /* DataModel.xcdatamodeld in Sources */,
 				50922DC019E2B50C00FFF874 /* AppDelegate.m in Sources */,
 				50922DC319E2B50C00FFF874 /* CurrentLocationViewController.m in Sources */,
