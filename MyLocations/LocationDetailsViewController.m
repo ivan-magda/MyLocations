@@ -8,6 +8,14 @@
 #import <CoreLocation/CoreLocation.h>
 
 
+extern NSString * const ManagedObjectContextSaveDidFailNotification;
+#define FATAL_CORE_DATA_ERROR(__error__)\
+    NSLog(@"*** Fatal error in %s:%d\n%@\n%@",\
+      __FILE__, __LINE__, error, [error userInfo]);\
+    [[NSNotificationCenter defaultCenter] postNotificationName:\
+    ManagedObjectContextSaveDidFailNotification object:error];
+
+
 #pragma mark - Class Extention
 
 @interface LocationDetailsViewController () <UITextViewDelegate>
@@ -138,11 +146,11 @@
     location.placemark = self.placemark;
     location.date = _date;
     
-        //Saves these changes into the data store.
+        //Save the contents of the context to the data store.
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
-        NSLog(@"Error: %@", error);
-        abort();
+        FATAL_CORE_DATA_ERROR(error);
+        return;
     }
 }
 
