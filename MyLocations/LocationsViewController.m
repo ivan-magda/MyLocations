@@ -1,4 +1,6 @@
+    //Custom Classes
 #import "LocationsViewController.h"
+#import "LocationCell.h"
 #import "Location.h"
 
     //Frameworks
@@ -60,18 +62,33 @@ ManagedObjectContextSaveDidFailNotification object:error];
     UITableViewCell *cell = [tableView
                              dequeueReusableCellWithIdentifier:@"Location"];
 
-    Location *location = _locations[indexPath.row];
-
-    UILabel *descriptionLabel = (UILabel *)[cell viewWithTag:100];
-    descriptionLabel.text = location.locationDescription;
-
-    UILabel *adressLabel = (UILabel *)[cell viewWithTag:101];
-    adressLabel.text = [NSString stringWithFormat:@"%@ %@, %@",
-                        location.placemark.subThoroughfare,
-                        location.placemark.thoroughfare,
-                        location.placemark.locality];
+    [self configureCell:cell atIndexPath:indexPath];
 
     return cell;
 }
+
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    LocationCell *locationCell = (LocationCell *)cell;
+    Location *location = _locations[indexPath.row];
+
+    if ([location.locationDescription length] > 0) {
+        locationCell.descriptionLabel.text = location.locationDescription;
+    } else {
+        locationCell.descriptionLabel.text = @"(No Description)";
+    }
+
+    if (location.placemark) {
+        locationCell.adressLabel.text = [NSString stringWithFormat:@"%@ %@, %@",
+                                         location.placemark.subThoroughfare,
+                                         location.placemark.thoroughfare,
+                                         location.placemark.locality];
+    } else {
+        locationCell.adressLabel.text = [NSString stringWithFormat:
+                                         @"Lat: %.8f, Long: %.8f",
+                                         location.latitude.doubleValue,
+                                         location.longitude.doubleValue];
+    }
+}
+
 
 @end
