@@ -105,7 +105,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jzz-H4-Xpg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="799" y="-303"/>
+            <point key="canvasLocation" x="1305" y="-89"/>
         </scene>
         <!--Locations View Controller-->
         <scene sceneID="D5D-OE-dKf">
@@ -140,6 +140,7 @@
                                 <connections>
                                     <outlet property="adressLabel" destination="ZxD-b8-XDK" id="0bA-ej-a8O"/>
                                     <outlet property="descriptionLabel" destination="qw0-fS-TFT" id="CFb-VY-VbP"/>
+                                    <segue destination="3b5-vb-vik" kind="modal" identifier="EditLocation" id="eZl-BU-aEP"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -342,7 +343,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RaV-oY-U1o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1186" y="-303"/>
+            <point key="canvasLocation" x="1692" y="-89"/>
         </scene>
         <!--Category Picker View Controller-->
         <scene sceneID="qba-TX-44W">
@@ -381,7 +382,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8wz-x1-19d" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="O52-Tp-gNQ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1586" y="-303"/>
+            <point key="canvasLocation" x="2092" y="-89"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -430,4 +431,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="eZl-BU-aEP"/>
+    </inferredMetricsTieBreakers>
 </document>

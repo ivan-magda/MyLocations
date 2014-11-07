@@ -52,6 +52,10 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    if (self.locationToEdit) {
+        self.title = @"Edit Location";
+    }
+
     self.descriptionTextView.text = _descriptionText;
     self.categoryLabel.text = _categoryName;
     self.latitudeLabel.text = [NSString stringWithFormat:@"%.8f", self.coordinate.latitude];
@@ -68,6 +72,22 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
 
     gestureRecognizer.cancelsTouchesInView = NO;
     [self.tableView addGestureRecognizer:gestureRecognizer];
+}
+
+#pragma mark - Set Methods Override -
+
+- (void)setLocationToEdit:(Location *)locationToEdit {
+    if (_locationToEdit != locationToEdit) {
+        _locationToEdit = locationToEdit;
+
+        _descriptionText = _locationToEdit.locationDescription;
+        _categoryName = _locationToEdit.category;
+        _date = _locationToEdit.date;
+
+        self.coordinate = CLLocationCoordinate2DMake(_locationToEdit.latitude.doubleValue, _locationToEdit.longitude.doubleValue);
+
+        self.placemark = _locationToEdit.placemark;
+    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -132,35 +152,33 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
     [self.descriptionTextView resignFirstResponder];
 }
 
-#pragma mark - CoreData -
+#pragma mark - IBActions -
 
-- (void)saveLocation {
-        //Сreate a new Location object
-    Location *location = [NSEntityDescription insertNewObjectForEntityForName:@"Location" inManagedObjectContext:self.managedObjectContext];
+- (IBAction)done:(id)sender {
+    HudView *hudView = [HudView hudInView:self.navigationController.view animated:YES];
 
-        //Set his properties
+    Location *location = nil;
+    if (self.locationToEdit) {
+        hudView.text = @"Updated";
+        location = self.locationToEdit;
+    } else {
+        hudView.text = @"Tagged";
+        location = [NSEntityDescription insertNewObjectForEntityForName:@"Location" inManagedObjectContext:self.managedObjectContext];
+    }
+
     location.locationDescription = _descriptionText;
     location.latitude  = @(self.coordinate.latitude);
     location.longitude = @(self.coordinate.longitude);
     location.category  = _categoryName;
     location.placemark = self.placemark;
     location.date = _date;
-    
+
         //Save the contents of the context to the data store.
     NSError *error;
     if (![self.managedObjectContext save:&error]) {
         FATAL_CORE_DATA_ERROR(error);
         return;
     }
-}
-
-#pragma mark - IBActions -
-
-- (IBAction)done:(id)sender {
-    HudView *hudView = [HudView hudInView:self.navigationController.view animated:YES];
-    hudView.text = @"Tagged";
-
-    [self saveLocation];
 
     [self performSelector:@selector(closeScreen) withObject:nil afterDelay:0.6];
 }
