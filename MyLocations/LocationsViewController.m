@@ -16,47 +16,69 @@ __FILE__, __LINE__, error, [error userInfo]);\
 ManagedObjectContextSaveDidFailNotification object:error];
 
 
-@interface LocationsViewController ()
+@interface LocationsViewController () <NSFetchedResultsControllerDelegate>
 
 @end
 
 @implementation LocationsViewController {
-    NSArray *_locations;
+    NSFetchedResultsController *_fetchedResultsController;
 }
 
-- (NSArray *)listOfLocationsObjects {
-        //To retrieve an object that at the data store, need to create a fetch
-        //request that describes the search parameters of the object.
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
-
-        //The NSEntityDescription tells the fetch request that you’re looking for Location entities.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Location" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-
-        //The NSSortDescriptor tells the fetch request to sort on the date attribute, in ascending order.
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES];
-    [fetchRequest setSortDescriptors:@[sortDescriptor]];
-
-        //Tell the context to execute fetch request.
-    NSError *error;
-    NSArray *foundObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    if (!foundObjects) {
-        FATAL_CORE_DATA_ERROR(error);
-        return nil;
-    }
-    return foundObjects;
-}
+#pragma mark - UIViewController Life Cycle -
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    _locations = [self listOfLocationsObjects];
+    [NSFetchedResultsController deleteCacheWithName:@"Locations"];
+    [self performFetch];
+}
+
+- (void)dealloc {
+    _fetchedResultsController.delegate = nil;
+}
+
+#pragma mark - NSFetchedResultsController -
+
+- (NSFetchedResultsController *)fetchedResultsController {
+    if (!_fetchedResultsController) {
+            //To retrieve an object that at the data store, need to create a fetch request that describes the search parameters of the object.
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc]init];
+
+            //The NSEntityDescription tells the fetch request that you’re looking for Location entities.
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Location" inManagedObjectContext:self.managedObjectContext];
+        [fetchRequest setEntity:entity];
+
+            //The NSSortDescriptor tells the fetch request to sort on the date attribute, in ascending order.
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES];
+        [fetchRequest setSortDescriptors:@[sortDescriptor]];
+
+        [fetchRequest setFetchBatchSize:20];
+
+        _fetchedResultsController = [[NSFetchedResultsController alloc]
+                                     initWithFetchRequest:fetchRequest
+                                     managedObjectContext:self.managedObjectContext
+                                     sectionNameKeyPath:nil
+                                     cacheName:@"Locations"];
+
+        _fetchedResultsController.delegate = self;
+    }
+    return _fetchedResultsController;
+}
+
+- (void)performFetch {
+    NSError *error;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        FATAL_CORE_DATA_ERROR(error);
+        return;
+    }
 }
 
 #pragma mark - UITableViewDataSource -
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_locations count];
+    id<NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
+
+    return [sectionInfo numberOfObjects];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -70,7 +92,7 @@ ManagedObjectContextSaveDidFailNotification object:error];
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     LocationCell *locationCell = (LocationCell *)cell;
-    Location *location = _locations[indexPath.row];
+    Location *location = [self.fetchedResultsController objectAtIndexPath:indexPath];
 
     if ([location.locationDescription length] > 0) {
         locationCell.descriptionLabel.text = location.locationDescription;
@@ -103,9 +125,61 @@ ManagedObjectContextSaveDidFailNotification object:error];
 
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
 
-        Location *location = _locations[indexPath.row];
+        Location *location = [self.fetchedResultsController objectAtIndexPath:indexPath];
         controller.locationToEdit = location;
     }
+}
+
+#pragma mark - NSFetchedResultsControllerDelegate -
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    NSLog(@"*** controllerWillChangeContent");
+    [self.tableView beginUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    switch (type) {
+        case NSFetchedResultsChangeInsert:
+            NSLog(@"*** NSFetchedResultsChangeInsert (object)");
+            [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+
+        case NSFetchedResultsChangeDelete:
+            NSLog(@"*** NSFetchedResultsChangeDelete (object)"); [self.tableView deleteRowsAtIndexPaths:@[indexPath]withRowAnimation:UITableViewRowAnimationFade];
+            break;
+
+        case NSFetchedResultsChangeUpdate:
+            NSLog(@"*** NSFetchedResultsChangeUpdate (object)");
+            [self configureCell:[self.tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            break;
+
+        case NSFetchedResultsChangeMove:
+            NSLog(@"*** NSFetchedResultsChangeMove (object)");
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    switch (type) {
+        case NSFetchedResultsChangeInsert:
+            NSLog(@"*** NSFetchedResultsChangeInsert (section)");
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+
+        case NSFetchedResultsChangeDelete:
+            NSLog(@"*** NSFetchedResultsChangeDelete (section)");
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    NSLog(@"*** controllerDidChangeContent");
+    [self.tableView endUpdates];
 }
 
 @end
