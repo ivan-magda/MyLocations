@@ -29,6 +29,8 @@ ManagedObjectContextSaveDidFailNotification object:error];
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
     [NSFetchedResultsController deleteCacheWithName:@"Locations"];
     [self performFetch];
 }
@@ -110,6 +112,21 @@ ManagedObjectContextSaveDidFailNotification object:error];
                                          @"Lat: %.8f, Long: %.8f",
                                          location.latitude.doubleValue,
                                          location.longitude.doubleValue];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        Location *location = [self.fetchedResultsController objectAtIndexPath:indexPath];
+
+        [self.managedObjectContext deleteObject:location];
+
+        NSError *error;
+        if (![self.managedObjectContext save:&error]) {
+            FATAL_CORE_DATA_ERROR(error);
+            return;
+        }
     }
 }
 
