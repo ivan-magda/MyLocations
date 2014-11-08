@@ -51,15 +51,17 @@ ManagedObjectContextSaveDidFailNotification object:error];
         [fetchRequest setEntity:entity];
 
             //The NSSortDescriptor tells the fetch request to sort on the date attribute, in ascending order.
-        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES];
-        [fetchRequest setSortDescriptors:@[sortDescriptor]];
+        NSSortDescriptor *sortDescriptor1 = [NSSortDescriptor sortDescriptorWithKey:@"category" ascending:YES];
+        NSSortDescriptor *sortDescriptor2 = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES];
+
+        [fetchRequest setSortDescriptors:@[sortDescriptor1, sortDescriptor2]];
 
         [fetchRequest setFetchBatchSize:20];
 
         _fetchedResultsController = [[NSFetchedResultsController alloc]
                                      initWithFetchRequest:fetchRequest
                                      managedObjectContext:self.managedObjectContext
-                                     sectionNameKeyPath:nil
+                                     sectionNameKeyPath:@"category"
                                      cacheName:@"Locations"];
 
         _fetchedResultsController.delegate = self;
@@ -81,6 +83,16 @@ ManagedObjectContextSaveDidFailNotification object:error];
     id<NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
 
     return [sectionInfo numberOfObjects];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return [[self.fetchedResultsController sections]count];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    id<NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
+    
+    return [sectionInfo name];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
