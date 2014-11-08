@@ -1,11 +1,8 @@
-    // My Classes
+    //Custom Classes
 #import "LocationDetailsViewController.h"
 #import "CategoryPickerViewController.h"
 #import "HudView.h"
 #import "Location.h"
-
-    // Frameworks
-#import <CoreLocation/CoreLocation.h>
 
 
 extern NSString * const ManagedObjectContextSaveDidFailNotification;

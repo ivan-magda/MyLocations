@@ -124,7 +124,6 @@
 		50922DAE19E2B50C00FFF874 = {
 			isa = PBXGroup;
 			children = (
-				50FA745B1A0E41DA002CAA41 /* MapKit.framework */,
 				50922DB919E2B50C00FFF874 /* MyLocations */,
 				50922DD619E2B50C00FFF874 /* MyLocationsTests */,
 				50922DB819E2B50C00FFF874 /* Products */,
@@ -160,6 +159,7 @@
 		50922DBA19E2B50C00FFF874 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				50FA745B1A0E41DA002CAA41 /* MapKit.framework */,
 				508E7EA51A08B6270097A9BE /* CoreData.framework */,
 				50146B0119E4015B00BFB1E1 /* CoreLocation.framework */,
 				50922DBB19E2B50C00FFF874 /* Info.plist */,

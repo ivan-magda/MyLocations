@@ -1,4 +1,5 @@
 #import "CurrentLocationViewController.h"
+#import "LocationDetailsViewController.h"
 
 @interface CurrentLocationViewController ()
 
@@ -37,9 +38,7 @@
 
 #pragma mark - IBActions -
 
-    //If the button is pressed while the app is already doing the location fetching,
-    //then stop the location manager.
-    //Also clear out the old location, error, placemark, geoErr objects before start looking for a new location.
+    //If the button is pressed while the app is already doing the location fetching, then stop the location manager. Also clear out the old location, error, placemark, geoErr objects before start looking for a new location.
 - (IBAction)getLocation:(id)sender {
     if (_updatingLocation) {
         [self stopLocationManager];

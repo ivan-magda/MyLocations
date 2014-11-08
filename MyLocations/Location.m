@@ -1,10 +1,8 @@
 #import "Location.h"
 
-
 @implementation Location
 
-    //The @dynamic keyword tells the compiler that these properties will
-    //be resolved at runtime by Core Data
+    //The @dynamic keyword tells the compiler that these properties will be resolved at runtime by Core Data
 
 @dynamic latitude;
 @dynamic longitude;
@@ -13,7 +11,7 @@
 @dynamic category;
 @dynamic placemark;
 
-#pragma mark - MKAnnotation -
+#pragma mark - MKAnnotationProtocol -
 
 - (CLLocationCoordinate2D)coordinate {
     return CLLocationCoordinate2DMake([self.latitude doubleValue], [self.longitude doubleValue]);

@@ -5,7 +5,7 @@
     NSIndexPath *_selectedIndexPath;
 }
 
-#pragma mark - View Controller Life Cycle -
+#pragma mark - ViewController Life Cycle -
 
 - (void)viewDidLoad {
     [super viewDidLoad];
