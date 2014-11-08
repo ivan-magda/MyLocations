@@ -89,7 +89,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="400" y="-303"/>
+            <point key="canvasLocation" x="444" y="-601"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="PWz-tM-6ka">
@@ -105,7 +105,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jzz-H4-Xpg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1305" y="-89"/>
+            <point key="canvasLocation" x="1271" y="-331"/>
         </scene>
         <!--Locations View Controller-->
         <scene sceneID="D5D-OE-dKf">
@@ -153,7 +153,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Swl-0w-qqx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="792" y="343"/>
+            <point key="canvasLocation" x="836" y="45"/>
         </scene>
         <!--Tag Location-->
         <scene sceneID="GaD-Hg-FHt">
@@ -343,7 +343,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RaV-oY-U1o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1692" y="-89"/>
+            <point key="canvasLocation" x="1658" y="-331"/>
         </scene>
         <!--Category Picker View Controller-->
         <scene sceneID="qba-TX-44W">
@@ -382,7 +382,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8wz-x1-19d" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="O52-Tp-gNQ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2092" y="-89"/>
+            <point key="canvasLocation" x="2058" y="-331"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -397,6 +397,7 @@
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="Ucf-ZM-WmQ" kind="relationship" relationship="viewControllers" id="YIG-fr-7pV"/>
+                        <segue destination="e2r-uK-5o4" kind="relationship" relationship="viewControllers" id="pZp-ME-WDF"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -420,7 +421,52 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="91w-YV-Leq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="400" y="343"/>
+            <point key="canvasLocation" x="444" y="45"/>
+        </scene>
+        <!--Map-->
+        <scene sceneID="eAe-Xn-P3C">
+            <objects>
+                <viewController id="e2r-uK-5o4" customClass="MapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="H37-xA-3Pb">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" id="6cv-qg-Vsa">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="e2r-uK-5o4" id="7Ue-o7-7sS"/>
+                                </connections>
+                            </mapView>
+                            <navigationBar contentMode="scaleToFill" id="n43-4s-RMg">
+                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Map" id="Mgd-6T-Cz4">
+                                        <barButtonItem key="leftBarButtonItem" title="Locations" id="quy-Ke-ZnB">
+                                            <connections>
+                                                <action selector="showLocations:" destination="e2r-uK-5o4" id="J6u-OT-d2v"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="User" id="fOC-4m-MR1">
+                                            <connections>
+                                                <action selector="showUser:" destination="e2r-uK-5o4" id="gtB-YR-fRe"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Map" id="Ku0-l5-yXG"/>
+                    <connections>
+                        <outlet property="mapView" destination="6cv-qg-Vsa" id="8Ob-aW-GmW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1ux-qF-lTd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="444" y="721"/>
         </scene>
     </scenes>
     <resources>

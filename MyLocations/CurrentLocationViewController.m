@@ -55,7 +55,7 @@
     [self configureGetButton];
 }
 
-#pragma mark - Transition -
+#pragma mark - Navigation -
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"TagLocation"]) {
@@ -66,8 +66,6 @@
         locationDetailsViewController.coordinate = _location.coordinate;
         locationDetailsViewController.placemark  = _placemark;
         locationDetailsViewController.managedObjectContext = self.managedObjectContext;
-
-        [self stopLocationManager];
     }
 }
 

@@ -199,7 +199,7 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
     self.categoryLabel.text = _categoryName;
 }
 
-#pragma mark - Transition -
+#pragma mark - Navigation -
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"PickCategory"]) {

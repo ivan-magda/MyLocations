@@ -51,10 +51,10 @@ ManagedObjectContextSaveDidFailNotification object:error];
         [fetchRequest setEntity:entity];
 
             //The NSSortDescriptor tells the fetch request to sort on the date attribute, in ascending order.
-        NSSortDescriptor *sortDescriptor1 = [NSSortDescriptor sortDescriptorWithKey:@"category" ascending:YES];
-        NSSortDescriptor *sortDescriptor2 = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES];
+        NSSortDescriptor *categorySortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"category" ascending:YES];
+        NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES];
 
-        [fetchRequest setSortDescriptors:@[sortDescriptor1, sortDescriptor2]];
+        [fetchRequest setSortDescriptors:@[categorySortDescriptor, dateSortDescriptor]];
 
         [fetchRequest setFetchBatchSize:20];
 
@@ -142,7 +142,7 @@ ManagedObjectContextSaveDidFailNotification object:error];
     }
 }
 
-#pragma mark - Transition -
+#pragma mark - Navigation -
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"EditLocation"]) {

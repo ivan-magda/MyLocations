@@ -13,4 +13,21 @@
 @dynamic category;
 @dynamic placemark;
 
+#pragma mark - MKAnnotation -
+
+- (CLLocationCoordinate2D)coordinate {
+    return CLLocationCoordinate2DMake([self.latitude doubleValue], [self.longitude doubleValue]);
+}
+
+- (NSString *)title {
+    if ([self.locationDescription length] > 0) {
+        return self.locationDescription;
+    }
+    return @"(No Description)";
+}
+
+- (NSString *)subtitle {
+    return self.category;
+}
+
 @end
