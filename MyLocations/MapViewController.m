@@ -1,4 +1,7 @@
+    //Custom Classes
 #import "MapViewController.h"
+#import "Location.h"
+#import "LocationDetailsViewController.h"
 
     //Frameworks
 #import <MapKit/MapKit.h>
@@ -13,7 +16,7 @@ __FILE__, __LINE__, error, [error userInfo]);\
 ManagedObjectContextSaveDidFailNotification object:error];
 
 
-@interface MapViewController () <MKMapViewDelegate>
+@interface MapViewController () <MKMapViewDelegate, UINavigationBarDelegate>
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
 
@@ -23,12 +26,36 @@ ManagedObjectContextSaveDidFailNotification object:error];
     NSArray *_locations;
 }
 
+#pragma mark - ViewController Life Cycle -
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self updateLocations];
 
     if ([_locations count] > 0) {
         [self showLocations:nil];
+    }
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        [[NSNotificationCenter defaultCenter]addObserver:self
+            selector:@selector(contextDidChange:)
+            name:NSManagedObjectContextObjectsDidChangeNotification
+            object:self.managedObjectContext];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
+
+#pragma mark - HelpMethods -
+
+- (void)contextDidChange:(NSNotification *)notification {
+    if ([self isViewLoaded]) {
+        [self updateLocations];
     }
 }
 
@@ -51,6 +78,12 @@ ManagedObjectContextSaveDidFailNotification object:error];
 
     _locations = foundLocations;
     [self.mapView addAnnotations:_locations];
+}
+
+#pragma mark - UINavigationBarDelegate -
+
+- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar {
+    return UIBarPositionTopAttached;
 }
 
 #pragma mark - IBActions -
@@ -111,5 +144,56 @@ ManagedObjectContextSaveDidFailNotification object:error];
     }
     return [self.mapView regionThatFits:region];
 }
+
+#pragma mark - MKMapViewDelegate -
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    if ([annotation isKindOfClass:[Location class]]) {
+        static NSString *identifier = @"Location";
+        MKPinAnnotationView *annotationView = (MKPinAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+        if (!annotationView) {
+            annotationView = [[MKPinAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:identifier];
+
+            annotationView.enabled = YES;
+            annotationView.canShowCallout = YES;
+            annotationView.animatesDrop = NO;
+            annotationView.pinColor = MKPinAnnotationColorGreen;
+
+            UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+            [rightButton addTarget:self
+                            action:@selector(showLocationDetails:)
+                  forControlEvents:UIControlEventTouchUpInside];
+            annotationView.rightCalloutAccessoryView = rightButton;
+        } else {
+            annotationView.annotation = annotation;
+        }
+        UIButton *button = (UIButton *)annotationView.rightCalloutAccessoryView;
+        button.tag = [_locations indexOfObject:(Location *)annotation];
+
+        return annotationView;
+    }
+    return nil;
+}
+
+- (void)showLocationDetails:(UIButton *)button {
+    [self performSegueWithIdentifier:@"EditLocation" sender:button];
+}
+
+#pragma mark - Navigation -
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"EditLocation"]) {
+        UINavigationController *navigationController = segue.destinationViewController;
+
+        LocationDetailsViewController *controller = (LocationDetailsViewController *)navigationController.topViewController;
+
+        controller.managedObjectContext = self.managedObjectContext;
+
+        UIButton *button = (UIButton *)sender;
+        Location *location = _locations[button.tag];
+        controller.locationToEdit = location;
+    }
+}
+
 
 @end

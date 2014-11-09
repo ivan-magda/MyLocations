@@ -89,7 +89,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="444" y="-601"/>
+            <point key="canvasLocation" x="624" y="-767"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="PWz-tM-6ka">
@@ -105,7 +105,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jzz-H4-Xpg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1271" y="-331"/>
+            <point key="canvasLocation" x="1365" y="0.0"/>
         </scene>
         <!--Locations View Controller-->
         <scene sceneID="D5D-OE-dKf">
@@ -153,7 +153,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Swl-0w-qqx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="836" y="45"/>
+            <point key="canvasLocation" x="878" y="0.0"/>
         </scene>
         <!--Tag Location-->
         <scene sceneID="GaD-Hg-FHt">
@@ -343,7 +343,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RaV-oY-U1o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1658" y="-331"/>
+            <point key="canvasLocation" x="1752" y="0.0"/>
         </scene>
         <!--Category Picker View Controller-->
         <scene sceneID="qba-TX-44W">
@@ -382,7 +382,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8wz-x1-19d" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="O52-Tp-gNQ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2058" y="-331"/>
+            <point key="canvasLocation" x="2152" y="0.0"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -421,7 +421,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="91w-YV-Leq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="444" y="45"/>
+            <point key="canvasLocation" x="486" y="0.0"/>
         </scene>
         <!--Map-->
         <scene sceneID="eAe-Xn-P3C">
@@ -455,6 +455,9 @@
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
+                                <connections>
+                                    <outlet property="delegate" destination="e2r-uK-5o4" id="eso-T7-2xv"/>
+                                </connections>
                             </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -462,11 +465,12 @@
                     <tabBarItem key="tabBarItem" title="Map" id="Ku0-l5-yXG"/>
                     <connections>
                         <outlet property="mapView" destination="6cv-qg-Vsa" id="8Ob-aW-GmW"/>
+                        <segue destination="3b5-vb-vik" kind="modal" identifier="EditLocation" id="pH6-1Q-Dlp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1ux-qF-lTd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="444" y="721"/>
+            <point key="canvasLocation" x="696" y="719"/>
         </scene>
     </scenes>
     <resources>
@@ -478,6 +482,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="eZl-BU-aEP"/>
+        <segue reference="pH6-1Q-Dlp"/>
     </inferredMetricsTieBreakers>
 </document>
