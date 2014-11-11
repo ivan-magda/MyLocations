@@ -15,8 +15,10 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
 
 #pragma mark - Class Extention
 
-@interface LocationDetailsViewController () <UITextViewDelegate, UIImagePickerControllerDelegate,
-                                             UINavigationControllerDelegate, UIActionSheetDelegate>
+@interface LocationDetailsViewController () <UITextViewDelegate,
+                                             UIImagePickerControllerDelegate,
+                                             UINavigationControllerDelegate,
+                                             UIActionSheetDelegate>
 
 @property (nonatomic, weak) IBOutlet UITextView *descriptionTextView;
 
@@ -36,9 +38,9 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
 @implementation LocationDetailsViewController {
     NSString *_descriptionText;
     NSString *_categoryName;
-    NSDate *_date;
+    NSDate   *_date;
 
-    UIImage *_image;
+    UIImage  *_image;
 
     UIActionSheet *_actionSheet;
     UIImagePickerController *_imagePicker;
@@ -73,7 +75,7 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
     self.latitudeLabel.text = [NSString stringWithFormat:@"%.8f", self.coordinate.latitude];
     self.longitudeLabel.text = [NSString stringWithFormat: @"%.8f", self.coordinate.longitude];
 
-    if (self.placemark != nil) {
+    if (self.placemark) {
         self.addressLabel.text = [self stringFromPlacemark:self.placemark];
     } else {
         self.addressLabel.text = @"No Address Found";
@@ -264,6 +266,7 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
     } else {
         hudView.text = @"Tagged";
         location = [NSEntityDescription insertNewObjectForEntityForName:@"Location" inManagedObjectContext:self.managedObjectContext];
+        location.photoId = @-1;
     }
 
     location.locationDescription = _descriptionText;
@@ -272,6 +275,18 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
     location.category  = _categoryName;
     location.placemark = self.placemark;
     location.date = _date;
+
+    if (_image) {
+        if (![location hasPhoto]) {
+            location.photoId = @([Location nextPhotoId]);
+        }
+
+        NSData *data = UIImageJPEGRepresentation(_image, 0.5);
+        NSError *error;
+        if (![data writeToFile:[location photoPath] options:NSDataWritingAtomic error:&error]) {
+            NSLog(@"Error writing file: %@", error);
+        }
+    }
 
         //Save the contents of the context to the data store.
     NSError *error;
@@ -308,7 +323,7 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
     }
 }
 
-#pragma mark - UITextView Delegate -
+#pragma mark - UITextViewDelegate -
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     _descriptionText = [textView.text stringByReplacingCharactersInRange:range withString:text];

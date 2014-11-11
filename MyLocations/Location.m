@@ -6,6 +6,7 @@
 
 @dynamic latitude;
 @dynamic longitude;
+@dynamic photoId;
 @dynamic date;
 @dynamic locationDescription;
 @dynamic category;
@@ -26,6 +27,42 @@
 
 - (NSString *)subtitle {
     return self.category;
+}
+
+#pragma mark - Working with the photo file -
+
+- (BOOL)hasPhoto {
+    return (self.photoId) && ([self.photoId integerValue] != -1);
+}
+
+- (UIImage *)photoImage {
+    NSAssert(self.photoId, @"No photo ID set");
+    NSAssert([self.photoId integerValue] != -1, @"Photo ID is -1");
+
+    return [UIImage imageWithContentsOfFile:[self photoPath]];
+}
+
++ (NSInteger)nextPhotoId {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
+    NSInteger photoId = [userDefaults integerForKey:@"PhotoID"];
+    [userDefaults setInteger:photoId + 1 forKey:@"PhotoID"];
+    [userDefaults synchronize];
+
+    return photoId;
+}
+
+#pragma mark Full path to the JPEG file
+
+- (NSString *)documentsDirectory {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths lastObject];
+    return documentsDirectory;
+}
+
+- (NSString *)photoPath {
+    NSString *fileName = [NSString stringWithFormat:@"Photo-%ld.jpg", (long)[self.photoId integerValue]];
+    return [[self documentsDirectory]stringByAppendingPathComponent:fileName];
 }
 
 @end
