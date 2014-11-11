@@ -39,6 +39,9 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
     NSDate *_date;
 
     UIImage *_image;
+
+    UIActionSheet *_actionSheet;
+    UIImagePickerController *_imagePicker;
 }
 
 #pragma mark - ViewController Life Cycle -
@@ -48,6 +51,12 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
         _descriptionText = @"";
         _categoryName = @"No Category";
         _date = [NSDate date];
+
+        [[NSNotificationCenter defaultCenter]
+            addObserver:self
+            selector:@selector(applicationDidEnterBackground)
+            name:UIApplicationDidEnterBackgroundNotification
+            object:nil];
     }
     return self;
 }
@@ -77,6 +86,23 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
     [self.tableView addGestureRecognizer:gestureRecognizer];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
+
+#pragma mark - Respond to the Notifications -
+
+- (void)applicationDidEnterBackground {
+    if (_imagePicker) {
+        [self dismissViewControllerAnimated:NO completion:nil];
+        _imagePicker = nil;
+    } else if (_actionSheet){
+        [_actionSheet dismissWithClickedButtonIndex:_actionSheet.cancelButtonIndex animated:NO];
+        _actionSheet = nil;
+    }
+    [self.descriptionTextView resignFirstResponder];
+}
+
 #pragma mark - Set Methods Override -
 
 - (void)setLocationToEdit:(Location *)locationToEdit {
@@ -103,35 +129,35 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
 }
 
 - (void)takePhoto {
-    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc]init];
+    _imagePicker = [[UIImagePickerController alloc]init];
 
-    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-    imagePickerController.delegate = self;
-    imagePickerController.allowsEditing = YES;
+    _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    _imagePicker.delegate = self;
+    _imagePicker.allowsEditing = YES;
 
-    [self presentViewController:imagePickerController animated:YES completion:nil];
+    [self presentViewController:_imagePicker animated:YES completion:nil];
 }
 
 - (void)choosePhotoFromLibrary {
-    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc]init];
+    _imagePicker = [[UIImagePickerController alloc]init];
 
-    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    imagePickerController.delegate = self;
-    imagePickerController.allowsEditing = YES;
+    _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    _imagePicker.delegate = self;
+    _imagePicker.allowsEditing = YES;
 
-    [self presentViewController:imagePickerController animated:YES completion:nil];
+    [self presentViewController:_imagePicker animated:YES completion:nil];
 }
 
 - (void)showPhotoMenu {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc]
+        _actionSheet = [[UIActionSheet alloc]
                                       initWithTitle:nil
                                       delegate:self
                                       cancelButtonTitle:@"Cancel"
                                       destructiveButtonTitle:nil
                                       otherButtonTitles:@"Take Photo", @"Choose From Library", nil];
 
-        [actionSheet showInView:self.view];
+        [_actionSheet showInView:self.view];
     } else {
         [self choosePhotoFromLibrary];
     }
@@ -146,10 +172,14 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
     [self.tableView reloadData];
 
     [self dismissViewControllerAnimated:YES completion:nil];
+
+    _imagePicker = nil;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES completion:nil];
+
+    _imagePicker = nil;
 }
 
 #pragma mark - UITableViewDelegate
@@ -297,6 +327,7 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
     } else if (buttonIndex == 1) {
         [self choosePhotoFromLibrary];
     }
+    _actionSheet = nil;
 }
 
 @end
