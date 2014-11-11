@@ -15,7 +15,8 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
 
 #pragma mark - Class Extention
 
-@interface LocationDetailsViewController () <UITextViewDelegate>
+@interface LocationDetailsViewController () <UITextViewDelegate, UIImagePickerControllerDelegate,
+                                             UINavigationControllerDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, weak) IBOutlet UITextView *descriptionTextView;
 
@@ -87,6 +88,53 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
     }
 }
 
+#pragma mark - UIImagePickerController -
+
+- (void)takePhoto {
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc]init];
+
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePickerController.delegate = self;
+    imagePickerController.allowsEditing = YES;
+
+    [self presentViewController:imagePickerController animated:YES completion:nil];
+}
+
+- (void)choosePhotoFromLibrary {
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc]init];
+
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    imagePickerController.delegate = self;
+    imagePickerController.allowsEditing = YES;
+
+    [self presentViewController:imagePickerController animated:YES completion:nil];
+}
+
+- (void)showPhotoMenu {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                      initWithTitle:nil
+                                      delegate:self
+                                      cancelButtonTitle:@"Cancel"
+                                      destructiveButtonTitle:nil
+                                      otherButtonTitles:@"Take Photo", @"Choose From Library", nil];
+
+        [actionSheet showInView:self.view];
+    } else {
+        [self choosePhotoFromLibrary];
+    }
+}
+
+#pragma mark UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -116,8 +164,10 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0 && indexPath.row == 0) {
         [self.descriptionTextView becomeFirstResponder];
+    } else if (indexPath.section == 1 && indexPath.row == 0) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self showPhotoMenu];
     }
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - Helper Methods -
@@ -214,6 +264,16 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
     _descriptionText = textView.text;
+}
+
+#pragma mark - UIActionSheetDelegate -
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        [self takePhoto];
+    } else if (buttonIndex == 1) {
+        [self choosePhotoFromLibrary];
+    }
 }
 
 @end
