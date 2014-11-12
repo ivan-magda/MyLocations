@@ -68,6 +68,13 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
 
     if (self.locationToEdit) {
         self.title = @"Edit Location";
+
+        if ([self.locationToEdit hasPhoto]) {
+            UIImage *existingImage = [self.locationToEdit photoImage];
+            if (existingImage) {
+                [self showImage:existingImage];
+            }
+        }
     }
 
     self.descriptionTextView.text = _descriptionText;
@@ -294,7 +301,6 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
         FATAL_CORE_DATA_ERROR(error);
         return;
     }
-
     [self performSelector:@selector(closeScreen) withObject:nil afterDelay:0.6];
 }
 
