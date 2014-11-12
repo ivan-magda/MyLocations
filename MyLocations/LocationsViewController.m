@@ -7,6 +7,9 @@
     //Frameworks
 #import <CoreData/CoreData.h>
 
+    //Categories
+#import "UIImage+Resize.h"
+
 
 extern NSString * const ManagedObjectContextSaveDidFailNotification;
 #define FATAL_CORE_DATA_ERROR(__error__)\
@@ -125,6 +128,15 @@ ManagedObjectContextSaveDidFailNotification object:error];
                                          location.latitude.doubleValue,
                                          location.longitude.doubleValue];
     }
+
+    UIImage *image = nil;
+    if ([location hasPhoto]) {
+        image = [location photoImage];
+        if (image) {
+            image = [image resizedImageWithBounds:CGSizeMake(52, 52)];
+        }
+    }
+    locationCell.photoImageView.image = image;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
