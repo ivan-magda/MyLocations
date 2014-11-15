@@ -33,6 +33,9 @@ ManagedObjectContextSaveDidFailNotification object:error];
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.tableView.backgroundColor = [UIColor blackColor];
+    self.tableView.separatorColor = [UIColor colorWithWhite:1.0f alpha:0.2f];
+
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
     [NSFetchedResultsController deleteCacheWithName:@"Locations"];
@@ -96,7 +99,7 @@ ManagedObjectContextSaveDidFailNotification object:error];
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     id<NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
     
-    return [sectionInfo name];
+    return [[sectionInfo name]uppercaseString];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -140,7 +143,27 @@ ManagedObjectContextSaveDidFailNotification object:error];
             image = [image resizedImageWithBounds:CGSizeMake(52, 52)];
         }
     }
+
+    if (!image) {
+        image = [UIImage imageNamed:@"No Photo"];
+    }
+
     locationCell.photoImageView.image = image;
+
+    locationCell.backgroundColor = [UIColor blackColor];
+    locationCell.descriptionLabel.textColor = [UIColor whiteColor];
+    locationCell.descriptionLabel.highlightedTextColor = locationCell.descriptionLabel.textColor;
+    locationCell.adressLabel.textColor = [UIColor colorWithWhite:1.0f alpha:0.4f];
+    locationCell.adressLabel.highlightedTextColor = locationCell.adressLabel.textColor;
+
+    UIView *selectionView = [[UIView alloc]initWithFrame:CGRectZero];
+    selectionView.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.2f];
+    locationCell.selectedBackgroundView = selectionView;
+
+        //This gives the image view rounded corners with a radius that is equal to half the width of the image, which makes it a perfect circle.
+    locationCell.photoImageView.layer.cornerRadius = locationCell.photoImageView.bounds.size.width / 2.0f;
+    locationCell.photoImageView.clipsToBounds = YES;
+    locationCell.separatorInset = UIEdgeInsetsMake(0, 82, 0, 0);
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -156,6 +179,31 @@ ManagedObjectContextSaveDidFailNotification object:error];
             return;
         }
     }
+}
+
+#pragma mark - UITableViewDelegate -
+
+    //It gets called once for each section in the table view. Here you create a label for the section name, a 1-pixel high view that functions as a separator line, and a container view to hold these two subviews.
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.0f, tableView.sectionHeaderHeight - 14.0f, 300.0f, 14.0f)];
+    label.font = [UIFont boldSystemFontOfSize:11.0f];
+    label.text = [tableView.dataSource tableView:tableView titleForHeaderInSection:section];
+    label.textColor = [UIColor colorWithWhite:1.0f alpha:0.4f];
+    label.backgroundColor = [UIColor clearColor];
+
+    UIView *separator = [[UIView alloc] initWithFrame:
+                         CGRectMake(15.0f, tableView.sectionHeaderHeight - 0.5f,
+                                    tableView.bounds.size.width - 15.0f, 0.5f)];
+    separator.backgroundColor = tableView.separatorColor;
+
+    UIView *view = [[UIView alloc] initWithFrame:
+                    CGRectMake(0.0f, 0.0f, tableView.bounds.size.width,tableView.sectionHeaderHeight)];
+    view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.85f];
+
+    [view addSubview:label];
+    [view addSubview:separator];
+
+    return view;
 }
 
 #pragma mark - Navigation -

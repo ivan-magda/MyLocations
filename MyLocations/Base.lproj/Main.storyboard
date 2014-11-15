@@ -287,7 +287,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NBM-3a-Y5T" id="g08-GS-5qM">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="20G-0g-83N">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="20G-0g-83N">
                                                     <rect key="frame" x="15" y="11" width="64" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -349,6 +349,7 @@
                         <outlet property="categoryLabel" destination="ZMV-RR-4ZC" id="ZtA-gJ-eu2"/>
                         <outlet property="dateLabel" destination="y0i-cI-ioG" id="MQh-yk-W3S"/>
                         <outlet property="descriptionTextView" destination="Roe-0I-3iD" id="aNs-JN-O5n"/>
+                        <outlet property="imageLabel" destination="3qB-B1-uyy" id="rG7-qF-Hw3"/>
                         <outlet property="imageView" destination="0lJ-8v-pvK" id="9kl-xC-T1r"/>
                         <outlet property="latitudeLabel" destination="Nqd-vH-Nyd" id="Zdl-8j-hXg"/>
                         <outlet property="longitudeLabel" destination="cH2-YL-7NL" id="jjH-Kz-wUC"/>

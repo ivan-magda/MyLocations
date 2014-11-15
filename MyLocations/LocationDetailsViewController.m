@@ -94,6 +94,19 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
 
     gestureRecognizer.cancelsTouchesInView = NO;
     [self.tableView addGestureRecognizer:gestureRecognizer];
+
+
+    self.tableView.backgroundColor = [UIColor blackColor];
+    self.tableView.separatorColor = [UIColor colorWithWhite:1.0f alpha:0.2f];
+
+    self.descriptionTextView.textColor = [UIColor whiteColor];
+    self.descriptionTextView.backgroundColor = [UIColor blackColor];
+
+    self.imageLabel.textColor = [UIColor whiteColor];
+    self.imageLabel.highlightedTextColor = self.imageLabel.textColor;
+
+    self.addressLabel.textColor = [UIColor colorWithWhite:1.0f alpha:0.4f];
+    self.addressLabel.highlightedTextColor = self.addressLabel.textColor;
 }
 
 - (void)dealloc {
@@ -144,6 +157,7 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
     _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     _imagePicker.delegate = self;
     _imagePicker.allowsEditing = YES;
+    _imagePicker.view.tintColor = self.view.tintColor;
 
     [self presentViewController:_imagePicker animated:YES completion:nil];
 }
@@ -154,6 +168,7 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
     _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     _imagePicker.delegate = self;
     _imagePicker.allowsEditing = YES;
+    _imagePicker.view.tintColor = self.view.tintColor;
 
     [self presentViewController:_imagePicker animated:YES completion:nil];
 }
@@ -213,6 +228,25 @@ extern NSString * const ManagedObjectContextSaveDidFailNotification;
         return self.addressLabel.frame.size.height + 20;
     } else {
         return 44;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = [UIColor blackColor];
+
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.highlightedTextColor = cell.textLabel.textColor;
+    cell.detailTextLabel.textColor = [UIColor colorWithWhite:1.0f alpha:0.4f];
+    cell.detailTextLabel.highlightedTextColor = cell.detailTextLabel.textColor;
+
+    UIView *selectionView = [[UIView alloc] initWithFrame:CGRectZero];
+    selectionView.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.2f];
+    cell.selectedBackgroundView = selectionView;
+
+    if (indexPath.row == 2) {
+        UILabel *addressLabel = (UILabel *)[cell viewWithTag:100];
+        addressLabel.textColor = [UIColor whiteColor];
+        addressLabel.highlightedTextColor = addressLabel.textColor;
     }
 }
 
