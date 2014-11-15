@@ -21,7 +21,6 @@
 		50922DC619E2B50C00FFF874 /* LocationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50922DC519E2B50C00FFF874 /* LocationsViewController.m */; };
 		50922DC919E2B50C00FFF874 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50922DC719E2B50C00FFF874 /* Main.storyboard */; };
 		50922DCB19E2B50C00FFF874 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50922DCA19E2B50C00FFF874 /* Images.xcassets */; };
-		50922DCE19E2B50C00FFF874 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50922DCC19E2B50C00FFF874 /* LaunchScreen.xib */; };
 		50922DDA19E2B50C00FFF874 /* MyLocationsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 50922DD919E2B50C00FFF874 /* MyLocationsTests.m */; };
 		50C1E28C1A0651B600ED3159 /* HudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C1E28B1A0651B600ED3159 /* HudView.m */; };
 		50FA745C1A0E41DA002CAA41 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50FA745B1A0E41DA002CAA41 /* MapKit.framework */; };
@@ -68,7 +67,6 @@
 		50922DC519E2B50C00FFF874 /* LocationsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationsViewController.m; sourceTree = "<group>"; };
 		50922DC819E2B50C00FFF874 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		50922DCA19E2B50C00FFF874 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		50922DCD19E2B50C00FFF874 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		50922DD319E2B50C00FFF874 /* MyLocationsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyLocationsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50922DD819E2B50C00FFF874 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50922DD919E2B50C00FFF874 /* MyLocationsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyLocationsTests.m; sourceTree = "<group>"; };
@@ -172,7 +170,6 @@
 				50FF11491A16E25D00B0E2E1 /* Categories */,
 				50922DC719E2B50C00FFF874 /* Main.storyboard */,
 				50922DCA19E2B50C00FFF874 /* Images.xcassets */,
-				50922DCC19E2B50C00FFF874 /* LaunchScreen.xib */,
 				50FF11541A17276200B0E2E1 /* Sound */,
 				50922DBA19E2B50C00FFF874 /* Supporting Files */,
 			);
@@ -314,7 +311,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				50922DC919E2B50C00FFF874 /* Main.storyboard in Resources */,
-				50922DCE19E2B50C00FFF874 /* LaunchScreen.xib in Resources */,
 				50FF11561A17276200B0E2E1 /* Sound.caf in Resources */,
 				50922DCB19E2B50C00FFF874 /* Images.xcassets in Resources */,
 			);
@@ -377,14 +373,6 @@
 				50922DC819E2B50C00FFF874 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		50922DCC19E2B50C00FFF874 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				50922DCD19E2B50C00FFF874 /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
