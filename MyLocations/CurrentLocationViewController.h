@@ -17,5 +17,8 @@
 
 - (IBAction)getLocation:(id)sender;
 
-@end
+@property (nonatomic, weak) IBOutlet UILabel *latitudeTextLabel;
+@property (nonatomic, weak) IBOutlet UILabel *longitudeTextLabel;
+@property (nonatomic, weak) IBOutlet UIView *containerView;
 
+@end

@@ -19,6 +19,9 @@
     CLPlacemark *_placemark; //is the object that contains the address results
     BOOL _performingReverseGeocoding; //set to YES when a geocoding operation is taking place
     NSError *_lastGeocodingError;
+
+    UIButton *_logoButton;
+    BOOL _logoVisible;
 }
 
 #pragma mark - View Controller LifeCycle -
@@ -33,12 +36,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    [self updateLabels];
-    [self configureGetButton];
-
     self.tabBarController.delegate = self;
     self.tabBarController.tabBar.translucent = NO;
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    [self updateLabels];
+    [self configureGetButton];
 }
 
 #pragma mark - UITabBarControllerDelegate -
@@ -54,6 +59,10 @@
 
     //If the button is pressed while the app is already doing the location fetching, then stop the location manager. Also clear out the old location, error, placemark, geoErr objects before start looking for a new location.
 - (IBAction)getLocation:(id)sender {
+    if (_logoVisible) {
+        [self hideLogoView];
+    }
+
     if (_updatingLocation) {
         [self stopLocationManager];
     } else {
@@ -217,6 +226,10 @@
         } else {
             self.addressLabel.text = @"No Address Found";
         }
+
+        self.latitudeTextLabel.hidden = NO;
+        self.longitudeTextLabel.hidden = NO;
+
     } else {
         self.latitudeLabel.text  = @"";
         self.longitudeLabel.text = @"";
@@ -236,9 +249,13 @@
         } else if (_updatingLocation) {
             statusMessage = @"Searching...";
         } else {
-            statusMessage = @"Press the Button to Start";
+            statusMessage = @"";
+            [self showLogoView];
         }
         self.messageLabel.text = statusMessage;
+
+        self.latitudeTextLabel.hidden = YES;
+        self.longitudeTextLabel.hidden = YES;
     }
 }
 
@@ -289,6 +306,76 @@
         [self updateLabels];
         [self configureGetButton];
     }
+}
+
+#pragma mark - Logo View -
+
+- (void)showLogoView {
+    if (_logoVisible) {
+        return;
+    }
+
+    _logoVisible = YES;
+    self.containerView.hidden = YES;
+
+    _logoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_logoButton setBackgroundImage:[UIImage imageNamed:@"Logo"] forState:UIControlStateNormal];
+    [_logoButton sizeToFit];
+    [_logoButton addTarget:self action:@selector(getLocation:) forControlEvents:UIControlEventTouchUpInside];
+    _logoButton.center = CGPointMake(self.view.bounds.size.width / 2.0f, self.view.bounds.size.height / 2.0f - 49.0f);
+
+    [self.view addSubview:_logoButton];
+}
+
+- (void)hideLogoView {
+    if (!_logoVisible) {
+        return;
+    }
+
+    _logoVisible = NO;
+    self.containerView.hidden = NO;
+
+    self.containerView.center = CGPointMake(self.view.bounds.size.width * 2.0f, 40.f + self.containerView.bounds.size.height / 2.0f);
+
+        //1) the containerView is placed outside the screen (somewhere on the right) and moved to the center.
+    CABasicAnimation *panelMover = [CABasicAnimation animationWithKeyPath:@"position"];
+    panelMover.removedOnCompletion = NO;
+    panelMover.fillMode = kCAFillModeForwards;
+    panelMover.duration = 0.6;
+    panelMover.fromValue = [NSValue valueWithCGPoint:self.containerView.center];
+    panelMover.toValue = [NSValue valueWithCGPoint:CGPointMake(160.0f, self.containerView.center.y)];
+    panelMover.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    panelMover.delegate = self;
+    [self.containerView.layer addAnimation:panelMover forKey:@"panelMover"];
+
+        //2) the logo image view slides out of the screen.
+    CABasicAnimation *logoMover = [CABasicAnimation animationWithKeyPath:@"position"];
+    logoMover.removedOnCompletion = NO;
+    logoMover.fillMode = kCAFillModeForwards;
+    logoMover.duration = 0.5;
+    logoMover.fromValue = [NSValue valueWithCGPoint:_logoButton.center];
+    logoMover.toValue = [NSValue valueWithCGPoint:CGPointMake(-160.0f, _logoButton.center.y)];
+    logoMover.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    [_logoButton.layer addAnimation:logoMover forKey:@"logoMover"];
+
+        //3) rotates logo image view around its center, giving the impression that it’s rolling away.
+    CABasicAnimation *logoRotator = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    logoRotator.removedOnCompletion = NO;
+    logoRotator.fillMode = kCAFillModeForwards;
+    logoRotator.duration = 0.5;
+    logoRotator.fromValue = @0.0f;
+    logoRotator.toValue = @(-2.0f * M_PI);
+    logoRotator.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    [_logoButton.layer addAnimation:logoRotator forKey:@"logoRotator"];
+}
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+    [self.containerView.layer removeAllAnimations];
+    self.containerView.center = CGPointMake(self.view.bounds.size.width / 2.0f, 40.0f + self.containerView.bounds.size.height / 2.0f);
+
+    [_logoButton.layer removeAllAnimations];
+    [_logoButton removeFromSuperview];
+    _logoButton = nil;
 }
 
 @end
