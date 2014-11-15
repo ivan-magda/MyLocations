@@ -456,12 +456,12 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="Map" id="Mgd-6T-Cz4">
-                                        <barButtonItem key="leftBarButtonItem" title="Locations" id="quy-Ke-ZnB">
+                                        <barButtonItem key="leftBarButtonItem" image="Pin" id="quy-Ke-ZnB">
                                             <connections>
                                                 <action selector="showLocations:" destination="e2r-uK-5o4" id="J6u-OT-d2v"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="User" id="fOC-4m-MR1">
+                                        <barButtonItem key="rightBarButtonItem" image="User" id="fOC-4m-MR1">
                                             <connections>
                                                 <action selector="showUser:" destination="e2r-uK-5o4" id="gtB-YR-fRe"/>
                                             </connections>
@@ -489,7 +489,9 @@
     <resources>
         <image name="Locations" width="30" height="30"/>
         <image name="Map" width="30" height="30"/>
+        <image name="Pin" width="24" height="24"/>
         <image name="Tag" width="30" height="30"/>
+        <image name="User" width="24" height="24"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
