@@ -22,6 +22,8 @@
 
     UIButton *_logoButton;
     BOOL _logoVisible;
+
+    UIActivityIndicatorView *_spinner;
 }
 
 #pragma mark - View Controller LifeCycle -
@@ -262,8 +264,17 @@
 - (void)configureGetButton {
     if (_updatingLocation) {
         [self.getButton setTitle:@"Stop" forState:UIControlStateNormal];
+        if (!_spinner) {
+            _spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+            _spinner.center = CGPointMake(self.messageLabel.center.x, self.messageLabel.center.y + _spinner.bounds.size.height / 2.0f + 15.0f);
+            [_spinner startAnimating];
+            [self.containerView addSubview:_spinner];
+        }
     } else {
         [self.getButton setTitle:@"Get My Location" forState:UIControlStateNormal];
+
+        [_spinner removeFromSuperview];
+        _spinner = nil;
     }
 }
 
