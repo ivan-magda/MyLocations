@@ -1,7 +1,12 @@
+    //Custom Classes
 #import "CurrentLocationViewController.h"
 #import "LocationDetailsViewController.h"
 
+    //Categories
 #import "NSMutableString+AddText.h"
+
+    //Frameworks
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface CurrentLocationViewController () <UITabBarControllerDelegate>
 
@@ -24,6 +29,8 @@
     BOOL _logoVisible;
 
     UIActivityIndicatorView *_spinner;
+
+    SystemSoundID _soundID;
 }
 
 #pragma mark - View Controller LifeCycle -
@@ -46,6 +53,7 @@
     [super viewWillLayoutSubviews];
     [self updateLabels];
     [self configureGetButton];
+    [self loadSoundEffect];
 }
 
 #pragma mark - UITabBarControllerDelegate -
@@ -163,6 +171,10 @@
 
                                 _lastGeocodingError = error;
                                 if (error == nil && [placemarks count] > 0) {
+                                    if (!_placemark) {
+                                        NSLog(@"FIRST TIME!");
+                                        [self playSoundEffect];
+                                    }
                                     _placemark = [placemarks lastObject];
                                 } else {
                                     _placemark = nil;
@@ -387,6 +399,33 @@
     [_logoButton.layer removeAllAnimations];
     [_logoButton removeFromSuperview];
     _logoButton = nil;
+}
+
+#pragma mark - Sound Effect -
+
+    //The loadSoundEffect method loads the file Sound.caf and puts it into a new System Sound object.
+- (void)loadSoundEffect {
+    NSString *path = [[NSBundle mainBundle]pathForResource:@"Sound.caf" ofType:nil];
+
+    NSURL *fileURL = [NSURL fileURLWithPath:path isDirectory:NO];
+    if (!fileURL) {
+        NSLog(@"NSURL is nil for path: %@", path);
+    }
+
+    OSStatus error = AudioServicesCreateSystemSoundID((__bridge CFURLRef)fileURL, &_soundID);
+    if (error != kAudioServicesNoError) {
+        NSLog(@"Error code %d loading sound at path: %@", (int)error,path);
+        return;
+    }
+}
+
+- (void)unloadSoundEffect {
+    AudioServicesDisposeSystemSoundID(_soundID);
+    _soundID = 0;
+}
+
+- (void)playSoundEffect {
+    AudioServicesPlaySystemSound(_soundID);
 }
 
 @end
