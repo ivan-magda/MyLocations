@@ -9,6 +9,7 @@
 
     //Categories
 #import "UIImage+Resize.h"
+#import "NSMutableString+AddText.h"
 
 
 extern NSString * const ManagedObjectContextSaveDidFailNotification;
@@ -118,10 +119,13 @@ ManagedObjectContextSaveDidFailNotification object:error];
     }
 
     if (location.placemark) {
-        locationCell.adressLabel.text = [NSString stringWithFormat:@"%@ %@, %@",
-                                         location.placemark.subThoroughfare,
-                                         location.placemark.thoroughfare,
-                                         location.placemark.locality];
+        NSMutableString *string = [[NSMutableString alloc]initWithCapacity:100];
+
+        [string addText:location.placemark.subThoroughfare withSeparator:@""];
+        [string addText:location.placemark.thoroughfare withSeparator:@" "];
+        [string addText:location.placemark.locality withSeparator:@" "];
+
+        locationCell.adressLabel.text = string;
     } else {
         locationCell.adressLabel.text = [NSString stringWithFormat:
                                          @"Lat: %.8f, Long: %.8f",

@@ -26,6 +26,7 @@
 		50C1E28C1A0651B600ED3159 /* HudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C1E28B1A0651B600ED3159 /* HudView.m */; };
 		50FA745C1A0E41DA002CAA41 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50FA745B1A0E41DA002CAA41 /* MapKit.framework */; };
 		50FA745F1A0E425A002CAA41 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FA745E1A0E425A002CAA41 /* MapViewController.m */; };
+		50FF11481A16E24F00B0E2E1 /* NSMutableString+AddText.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FF11471A16E24F00B0E2E1 /* NSMutableString+AddText.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,8 @@
 		50FA745B1A0E41DA002CAA41 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		50FA745D1A0E425A002CAA41 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		50FA745E1A0E425A002CAA41 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		50FF11461A16E24F00B0E2E1 /* NSMutableString+AddText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+AddText.h"; sourceTree = "<group>"; };
+		50FF11471A16E24F00B0E2E1 /* NSMutableString+AddText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+AddText.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,8 +154,7 @@
 				50922DBF19E2B50C00FFF874 /* AppDelegate.m */,
 				50C1E28A1A0651B600ED3159 /* HudView.h */,
 				50C1E28B1A0651B600ED3159 /* HudView.m */,
-				50555FA01A138E36006EF1AA /* UIImage+Resize.h */,
-				50555FA11A138E36006EF1AA /* UIImage+Resize.m */,
+				50FF11491A16E25D00B0E2E1 /* Categories */,
 				50922DC719E2B50C00FFF874 /* Main.storyboard */,
 				50922DCA19E2B50C00FFF874 /* Images.xcassets */,
 				50922DCC19E2B50C00FFF874 /* LaunchScreen.xib */,
@@ -188,6 +190,17 @@
 				50922DD819E2B50C00FFF874 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		50FF11491A16E25D00B0E2E1 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				50FF11461A16E24F00B0E2E1 /* NSMutableString+AddText.h */,
+				50FF11471A16E24F00B0E2E1 /* NSMutableString+AddText.m */,
+				50555FA01A138E36006EF1AA /* UIImage+Resize.h */,
+				50555FA11A138E36006EF1AA /* UIImage+Resize.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,6 +319,7 @@
 				50C1E28C1A0651B600ED3159 /* HudView.m in Sources */,
 				507124261A05BD9C00E1376B /* CategoryPickerViewController.m in Sources */,
 				500B3B8E1A0493EA0042F1C1 /* LocationDetailsViewController.m in Sources */,
+				50FF11481A16E24F00B0E2E1 /* NSMutableString+AddText.m in Sources */,
 				50FA745F1A0E425A002CAA41 /* MapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
