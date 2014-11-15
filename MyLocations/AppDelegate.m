@@ -28,6 +28,8 @@ NSString * const ManagedObjectContextSaveDidFailNotification = @"ManagedObjectCo
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self customizeAppearance];
+    
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
 
         //Get the CurrentLocationViewController and set managedObjectContext property
@@ -48,6 +50,14 @@ NSString * const ManagedObjectContextSaveDidFailNotification = @"ManagedObjectCo
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fatalCoreDataError:) name:ManagedObjectContextSaveDidFailNotification object:nil];
 
     return YES;
+}
+
+- (void)customizeAppearance {
+    [[UINavigationBar appearance]setBarTintColor:[UIColor blackColor]];
+
+    [[UINavigationBar appearance]setTitleTextAttributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] }];
+
+    [[UITabBar appearance]setBarTintColor:[UIColor blackColor]];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
